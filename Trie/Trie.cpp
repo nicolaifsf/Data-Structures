@@ -9,7 +9,6 @@ using namespace std;
 class Node{
         public:
                 void insert(stack<int> s){
-                        cout << " trying insert" << endl;
                     if(s.size() == 0){return;}
                     int currInt = s.top();
                     s.pop();
@@ -24,7 +23,6 @@ class Node{
                         s.pop();
                     }
                     vals[currInt]->insert(s);
-                    cout << "inserted " << endl; 
                 }
                 unordered_map<int, Node*>::iterator start(){
                     if(vals.begin() == vals.end()){
@@ -32,6 +30,9 @@ class Node{
                         return vals.end();
                     }
                     return vals.begin(); 
+                }
+                unordered_map<int, Node*>::iterator end(){
+                    return vals.end(); 
                 }
 
                 void printOps(){
@@ -68,7 +69,7 @@ class Trie{
                             firstNode = new Node(); 
                         }
                         else{
-                        cout << "its not a nullptr?" << endl;
+                                cout << "there is something that exists here already, which is cool" << endl;
                         }
                         firstNode->insert(s);
                         ++size; 
@@ -80,17 +81,20 @@ class Trie{
                                 return;
                         }
                         unordered_map<int, Node*>::iterator itr = firstNode->start();
-                        cout << "here" << endl;
                         firstNode->printOps();
-
-                        // cout << itr->first << endl;
-                        // Node* n= itr->second;
-                        // itr = n->start();
-                        // cout << itr -> first << endl;
-                        // n = itr->second;
-                        // itr = n->start();
-                        // cout << itr->first << endl;
-                     
+                        itr = firstNode->start();
+                        while(true){
+                        cout << "which path would you like to follow: " ;
+                        int input;
+                        if(input == -1){return;}
+                        cin >> input;
+                        while(itr->first != input){
+                           ++itr; 
+                        }
+                        Node* currNode = itr->second;
+                        currNode->printOps();
+                        itr = currNode->start();
+                        }
                 }
         private:
                 Node* firstNode;
